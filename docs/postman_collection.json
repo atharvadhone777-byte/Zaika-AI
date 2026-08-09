@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "AI Recipe Generator API",
+    "description": "Ingredient-aware recipe recommendation with a RAG-backed cooking assistant. See docs/DEPLOYMENT.md and the project blueprint for context.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "recipe_id",
+      "value": "82",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/health"
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"status\": \"ok\",\n  \"model_loaded\": true,\n  \"rag_loaded\": true,\n  \"index_size\": 259,\n  \"uptime_seconds\": 0.7\n}"
+        }
+      ]
+    },
+    {
+      "name": "Recommend",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/recommend",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ingredients\": [\n    \"tomato\",\n    \"onion\",\n    \"garlic\",\n    \"rice\"\n  ],\n  \"top_k\": 3\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"results\": [\n    {\n      \"recipe_id\": 82,\n      \"title\": \"grilled parmesan cheese with celery sauce\",\n      \"match_score\": 0.6456,\n      \"required_ingredients\": [\n        \"fish sauce\",\n        \"ginger\",\n        \"vinegar\",\n        \"corn\",\n        \"tomato\",\n        \"cucumber\",\n        \"ground beef\",\n        \"parmesan cheese\",\n        \"celery\"\n      ],\n      \"missing_ingredients\": [\n        \"celery\",\n        \"corn\",\n        \"cucumber\",\n        \"fish sauce\",\n        \"ginger\",\n        \"ground beef\",\n        \"parmesan cheese\",\n        \"vinegar\"\n      ],\n      \"cook_time_minutes\": 152,\n      \"difficulty\": \"medium\",\n      \"steps\": [\n        \"Mix the ingredients, step 1.\",\n        \"Serve the ingredients, step 2.\",\n        \"Simmer the ingredients, step 3.\",\n        \"Stir the ingredients, step 4.\",\n        \"Serve the ingredients, step 5.\",\n        \"Mix the ingredients, step 6.\",\n        \"Serve the ingredients, step 7.\",\n        \"Chop the ingredients, step 8.\",\n        \"Serve the ingredients, step 9.\",\n        \"Serve the ingredients, step 10.\",\n        \"Mix the ingredients, step 11.\",\n        \"Chop the ingredients, step 12.\"\n      ],\n      \"description\": \"A simple grilled parmesan cheese with celery sauce you can make on a weeknight.\",\n      \"nutrition\": {\n        \"calories\": 472.4,\n        \"protein_g\": 46.2,\n        \"fat_g\": 19.1,\n        \"carbs_g\": 15.9\n      },\n      \"similar_recipe_ids\": [\n        297,\n        95,\n        43\n      ]\n    },\n    {\n      \"recipe_id\": 85,\n      \"title\": \"butter curry\",\n      \"match_score\": 0.5933,\n      \"required_ingredients\": [\n        \"egg\",\n        \"carrot\",\n        \"cumin\",\n        \"butter\",\n        \"milk\",\n        \"soy sauce\",\n        \"cheddar cheese\",\n        \"heavy cream\",\n        \"rice\",\n        \"scallion\",\n        \"tomato\",\n        \"pita bread\"\n      ],\n      \"missing_ingredients\": [\n        \"butter\",\n        \"carrot\",\n        \"cheddar cheese\",\n        \"cumin\",\n        \"egg\",\n        \"heavy cream\",\n        \"milk\",\n        \"pita bread\",\n        \"scallion\",\n        \"soy sauce\"\n      ],\n      \"cook_time_minutes\": 172,\n      \"difficulty\": \"medium\",\n      \"steps\": [\n        \"Combine the ingredients, step 1.\",\n        \"Serve the ingredients, step 2.\",\n        \"Stir the ingredients, step 3.\"\n      ],\n      \"description\": \"A simple butter curry you can make on a weeknight.\",\n      \"nutrition\": {\n        \"calories\": 532.7,\n        \"protein_g\": 14.7,\n        \"fat_g\": 48.2,\n        \"carbs_g\": 31.9\n      },\n      \"similar_recipe_ids\": [\n        253,\n        62,\n        190\n      ]\n    },\n    {\n      \"recipe_id\": 300,\n      \"title\": \"sour cream and chickpeas rice bowl\",\n      \"match_score\": 0.5917,\n      \"required_ingredients\": [\n        \"sour cream\",\n        \"chickpeas\",\n        \"heavy cream\",\n        \"feta cheese\"\n      ],\n      \"missing_ingredients\": [\n        \"chickpeas\",\n        \"feta cheese\",\n        \"heavy cream\",\n        \"sour cream\"\n      ],\n      \"cook_time_minutes\": 122,\n      \"difficulty\": \"medium\",\n      \"steps\": [\n        \"Serve the ingredients, step 1.\",\n        \"Heat the ingredients, step 2.\",\n        \"Saute the ingredients, step 3.\",\n        \"Season the ingredients, step 4.\",\n        \"Simmer the ingredients, step 5.\",\n        \"Serve the ingredients, step 6.\",\n        \"Bake the ingredients, step 7.\",\n        \"Mix the ingredients, step 8.\"\n      ],\n      \"description\": \"A simple sour cream and chickpeas rice bowl you can make on a weeknight.\",\n      \"nutrition\": {\n        \"calories\": 413.5,\n        \"protein_g\": 30.5,\n        \"fat_g\": 2.5,\n        \"carbs_g\": 18.2\n      },\n      \"similar_recipe_ids\": [\n        95,\n        235,\n        221\n      ]\n    }\n  ],\n  \"count\": 3\n}"
+        }
+      ]
+    },
+    {
+      "name": "Generate Recipe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/generate-recipe",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"recipe_id\": \"{{recipe_id}}\"\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"recipe\": {\n    \"recipe_id\": 82,\n    \"title\": \"grilled parmesan cheese with celery sauce\",\n    \"match_score\": null,\n    \"required_ingredients\": [\n      \"fish sauce\",\n      \"ginger\",\n      \"vinegar\",\n      \"corn\",\n      \"tomato\",\n      \"cucumber\",\n      \"ground beef\",\n      \"parmesan cheese\",\n      \"celery\"\n    ],\n    \"missing_ingredients\": [],\n    \"cook_time_minutes\": 152,\n    \"difficulty\": \"medium\",\n    \"steps\": [\n      \"Mix the ingredients, step 1.\",\n      \"Serve the ingredients, step 2.\",\n      \"Simmer the ingredients, step 3.\",\n      \"Stir the ingredients, step 4.\",\n      \"Serve the ingredients, step 5.\",\n      \"Mix the ingredients, step 6.\",\n      \"Serve the ingredients, step 7.\",\n      \"Chop the ingredients, step 8.\",\n      \"Serve the ingredients, step 9.\",\n      \"Serve the ingredients, step 10.\",\n      \"Mix the ingredients, step 11.\",\n      \"Chop the ingredients, step 12.\"\n    ],\n    \"description\": \"A simple grilled parmesan cheese with celery sauce you can make on a weeknight.\",\n    \"nutrition\": {\n      \"calories\": 472.4,\n      \"protein_g\": 46.2,\n      \"fat_g\": 19.1,\n      \"carbs_g\": 15.9\n    },\n    \"similar_recipe_ids\": [\n      297,\n      95,\n      43\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Substitute Ingredient",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/substitute-ingredient",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ingredient\": \"butter\",\n  \"recipe_id\": \"{{recipe_id}}\"\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"ingredient\": \"butter\",\n  \"suggestion\": \"Butter can be replaced with an equal amount of neutral oil (vegetable, canola, or light olive oil) in most savory cooking. For baking, use 3/4 the amount of oil as the butter called for, since butter also contains water that oil doesn't.\",\n  \"confidence\": \"medium\",\n  \"source\": \"sub_butter_oil\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Chat (RAG Assistant)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/chat",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"question\": \"How can I make this recipe vegan?\"\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "body": "{\n  \"answer\": \"To make a typical recipe vegan: replace dairy milk/cream with a plant-based alternative, replace butter with plant margarine or oil, replace eggs using the substitutions above, and replace meat with a plant protein (tofu, tempeh, or legumes) suited to the dish's cooking method. Related: For a vegan substitute, use plant-based margarine or coconut oil in a 1:1 ratio for butter. Coconut oil works best in baking; olive oil is better for sauteing.\",\n  \"confidence\": \"high\",\n  \"sources\": [\n    {\n      \"id\": \"diet_vegan_general\",\n      \"topic\": \"making a recipe vegan\",\n      \"score\": 0.4116\n    },\n    {\n      \"id\": \"sub_butter_vegan\",\n      \"topic\": \"vegan butter substitute substitution replacement alternative\",\n      \"score\": 0.1873\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Generate Recipe - Not Found (error example)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/generate-recipe",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"recipe_id\": 999999999\n}"
+        }
+      },
+      "response": [
+        {
+          "name": "404 Not Found",
+          "body": "{\n  \"error\": {\n    \"code\": \"recipe_not_found\",\n    \"message\": \"Recipe 999999999 not found\"\n  }\n}"
+        }
+      ]
+    }
+  ]
+}

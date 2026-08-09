@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark theme ("cast iron") - the default. Values are R G B triplets (no
+   commas, no rgb() wrapper) so Tailwind can compose them with an alpha
+   channel via rgb(var(--x) / <alpha-value>) - see tailwind.config.js. */
+:root {
+  color-scheme: dark;
+  --color-surface: 30 33 25;
+  --color-surface-raised: 40 44 34;
+  --color-surface-sunken: 23 25 18;
+  --color-ink: 242 239 230;
+  --color-ink-muted: 184 182 169;
+  --color-mustard: 224 165 38;
+  --color-mustard-soft: 58 51 28;
+  --color-brick: 193 67 46;
+  --color-brick-soft: 58 33 27;
+  --color-sage: 124 148 115;
+  --color-sage-soft: 36 42 31;
+}
+
+/* Light theme ("flour paper") - same hues, flipped luminance, and darker/
+   more saturated accent tones where needed to keep text contrast on a
+   light background (e.g. mustard needs to go darker to stay readable on
+   cream, not just have its background swapped). */
+html.light {
+  color-scheme: light;
+  --color-surface: 243 239 227;
+  --color-surface-raised: 255 255 255;
+  --color-surface-sunken: 231 226 210;
+  --color-ink: 30 33 25;
+  --color-ink-muted: 107 104 90;
+  --color-mustard: 168 111 17;
+  --color-mustard-soft: 250 233 195;
+  --color-brick: 176 58 40;
+  --color-brick-soft: 250 222 216;
+  --color-sage: 82 112 73;
+  --color-sage-soft: 222 232 216;
+}
+
+body {
+  @apply bg-surface text-ink font-body antialiased;
+}
+
+/* Signature element: a recipe-index-card punch-hole edge, used on the
+   left margin of the recipe detail card - the one place this design
+   spends its "boldness", per the frontend-design brief's restraint
+   principle. Implemented as a repeating radial-gradient rather than N
+   individual DOM nodes, so it scales to any card height for free. */
+.punch-holes::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  background-image: radial-gradient(circle at 14px 16px, rgb(var(--color-surface)) 5px, transparent 5.5px);
+  background-size: 28px 32px;
+  background-repeat: repeat-y;
+  border-right: 1px dashed rgb(var(--color-ink-muted) / 0.25);
+}

@@ -1,0 +1,12 @@
+data/raw/*
+data/processed/*
+data/splits/*
+!data/raw/.gitkeep
+frontend/node_modules
+frontend/dist
+notebooks/.ipynb_checkpoints
+__pycache__
+*.pyc
+.pytest_cache
+.git
+models/v1/runs
