@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Moon, Sun, ChefHat } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { ThemeProvider, useTheme } from "./hooks/useTheme";
 import { useFavorites } from "./hooks/useFavorites";
 import Home from "./pages/Home";
@@ -9,9 +9,9 @@ function Header() {
   const { theme, toggleTheme } = useTheme();
   return (
     <header className="flex items-center justify-between mb-10">
-      <div className="flex items-center gap-2">
-        <ChefHat size={22} className="text-mustard" />
-        <span className="font-display text-lg">Pantry</span>
+      <div className="flex items-center gap-2.5">
+        <img src="/logo-icon.png" alt="Zaika" className="w-8 h-8 rounded-md" />
+        <span className="font-display text-lg">Zaika</span>
       </div>
       <button
         onClick={toggleTheme}
