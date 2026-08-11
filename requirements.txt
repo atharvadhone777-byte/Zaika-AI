@@ -1,31 +1,20 @@
-# --- Core ML pipeline ---
 tensorflow==2.16.1
 numpy==1.26.4
 pandas==2.2.2
-pyarrow==16.1.0          # parquet I/O
-scikit-learn==1.5.0      # train utilities, metrics
-faiss-cpu==1.8.0         # vector similarity search for retrieval + RAG
-
-# --- NLP / text ---
+pyarrow==16.1.0         
+scikit-learn==1.5.0    
+faiss-cpu==1.8.0         
 nltk==3.8.1
-
-# --- Backend ---
 fastapi==0.111.0
 uvicorn[standard]==0.30.1
 pydantic==2.7.4
 pydantic-settings==2.3.4
 python-multipart==0.0.9
-
-# --- Notebooks / EDA ---
 jupyter==1.0.0
 nbformat==5.10.4
 nbclient==0.10.0
 matplotlib==3.9.0
 seaborn==0.13.2
-
-# --- Testing ---
 pytest==8.2.2
-httpx==0.27.0            # FastAPI TestClient dependency
-
-# --- Dataset acquisition (optional, for pulling the real Food.com dataset) ---
+httpx==0.27.0            
 kaggle==1.6.14
