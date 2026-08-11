@@ -1,4 +1,4 @@
-# Pantry — AI Recipe Generator
+# Zaika — AI Recipe Generator
 
 An ingredient-aware recipe recommendation engine with a RAG-backed cooking assistant. Give it what's in your kitchen; it retrieves matching recipes ranked by a trained embedding model, tells you what's missing, and answers follow-up questions ("can I make this vegan?") grounded in a retrieval knowledge base.
 
