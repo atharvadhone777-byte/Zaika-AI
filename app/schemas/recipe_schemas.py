@@ -1,12 +1,3 @@
-"""
-Pydantic request/response models for /recommend and /generate-recipe.
-
-Every field the frontend needs is modeled explicitly (not passed through
-as a raw dict) - this is what gives FastAPI's auto-generated OpenAPI docs
-real value, and what turns a malformed request into a clean 422 instead
-of a 500 from deep inside the ML code.
-"""
-
 from __future__ import annotations
 
 from pydantic import BaseModel, Field, field_validator

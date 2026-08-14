@@ -1,10 +1,3 @@
-"""
-Application entrypoint. Model + FAISS index + RAG store are loaded ONCE
-at startup (via the lifespan handler below), not per-request - loading a
-Keras model and a FAISS index takes real time, and doing that on every
-request would make latency unpredictable and largely pointless work.
-"""
-
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
@@ -25,11 +18,6 @@ logger = get_logger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Imported lazily inside the lifespan handler (not at module import
-    # time) so that importing app.main - e.g. for a quick route-listing
-    # script, or in tests that monkeypatch the model - doesn't force a
-    # multi-second TensorFlow + FAISS load as a side effect of the import
-    # itself.
     from ml.inference.predictor import RecipePredictor
     from rag.vector_store import KnowledgeVectorStore
 

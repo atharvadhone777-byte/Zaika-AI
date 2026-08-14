@@ -5,12 +5,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Each color resolves through a CSS custom property (defined in
-        // index.css) rather than a static hex value. This is what makes
-        // dark mode work correctly everywhere at once: every component
-        // just uses `bg-surface-raised` / `text-ink` etc., and the actual
-        // RGB values flip when the `light` class toggles on <html> - no
-        // component needs its own light/dark variant classes.
         surface: {
           DEFAULT: "rgb(var(--color-surface) / <alpha-value>)",
           raised: "rgb(var(--color-surface-raised) / <alpha-value>)",

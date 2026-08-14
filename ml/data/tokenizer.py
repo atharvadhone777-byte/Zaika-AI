@@ -1,19 +1,3 @@
-"""
-Ingredient vocabulary: maps normalized ingredient strings <-> integer ids.
-
-This is intentionally a flat ingredient-level vocabulary, not a subword/BPE
-tokenizer. Rationale: recipe ingredients are closer to a closed categorical
-vocabulary (~2-3k distinct normalized ingredients even at 180K recipes)
-than to open-ended natural language, so subword tokenization would add
-complexity (merge tables, unknown-piece handling) without adding value -
-splitting "tomato" into subword pieces doesn't help a retrieval model that
-only ever needs to know "was tomato present, yes/no" and how it co-occurs
-with other whole ingredients. Full text preprocessing (subwords/wordpiece)
-is used instead in rag/ for the free-text assistant, where language is
-genuinely open-ended - a good example of choosing tokenization strategy
-per-task rather than defaulting to one approach everywhere.
-"""
-
 from __future__ import annotations
 
 import json
@@ -33,10 +17,6 @@ class IngredientVocabulary:
     def build(cls, ingredient_lists: list[list[str]], min_frequency: int) -> "IngredientVocabulary":
         counts = Counter(ing for ings in ingredient_lists for ing in ings)
         vocab = cls()
-        # Sorted for determinism: dict/Counter iteration order in Python is
-        # insertion-order, which would make vocab ids depend on row order in
-        # the (possibly re-shuffled) dataframe. Sorting by (frequency desc,
-        # name) makes vocab-building reproducible independent of row order.
         kept = sorted(
             (tok for tok, c in counts.items() if c >= min_frequency),
             key=lambda t: (-counts[t], t),

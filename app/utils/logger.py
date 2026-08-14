@@ -10,7 +10,6 @@ def setup_logging() -> None:
         format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
         stream=sys.stdout,
     )
-    # Quiet down noisy third-party loggers so app logs aren't buried.
     logging.getLogger("tensorflow").setLevel(logging.WARNING)
     logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
 

@@ -1,11 +1,3 @@
-"""
-Service layer: the only place in app/ that talks to ml/. Routes call
-services; services call ml/inference/predictor.py. This indirection is
-small but deliberate - it means a route handler is pure HTTP concerns
-(status codes, request/response shaping) and a service is pure business
-logic, independently testable without spinning up FastAPI at all.
-"""
-
 from __future__ import annotations
 
 from ml.inference.predictor import RecipePredictor

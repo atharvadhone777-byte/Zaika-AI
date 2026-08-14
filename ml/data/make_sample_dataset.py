@@ -1,26 +1,3 @@
-"""
-Generates a SCHEMA-ACCURATE SAMPLE of the Food.com "Recipes and Interactions"
-dataset for local development.
-
-Why this file exists: the real dataset (~180K recipes, ~700K interactions)
-lives on Kaggle and this development environment cannot reach kaggle.com.
-Rather than build the pipeline blind, this script produces a small
-(configurable) synthetic dataset with the EXACT same column names and
-value formats as the real files (RAW_recipes.csv / RAW_interactions.csv),
-so every downstream script - preprocessing, EDA, tokenizer, splitting -
-can be written and tested against something real-shaped now, and will
-work unmodified against the real 180K-row files later.
-
-To use the real dataset instead:
-  1. pip install kaggle
-  2. Get an API token from kaggle.com/settings -> "Create New Token"
-  3. kaggle datasets download -d shuyangli94/food-com-recipes-and-user-interactions
-  4. Unzip RAW_recipes.csv and RAW_interactions.csv into data/raw/
-  5. Delete the sample files this script produced (or just overwrite them)
-
-Nothing downstream needs to change - only the files in data/raw/ change.
-"""
-
 from __future__ import annotations
 
 import random
@@ -33,10 +10,6 @@ sys.path.append(str(Path(__file__).resolve().parents[2]))
 from ml.config import DATA_RAW_DIR, RANDOM_SEED  # noqa: E402
 
 random.seed(RANDOM_SEED)
-
-# A small but realistic ingredient pool covering several cuisines, so the
-# sample has enough co-occurrence structure to sanity-check embeddings on
-# (e.g. "soy sauce" clusters with "ginger"/"scallion", not with "basil").
 INGREDIENT_POOL = [
     "tomato", "onion", "garlic", "rice", "olive oil", "salt", "black pepper",
     "chicken breast", "butter", "flour", "egg", "milk", "sugar", "basil",
@@ -49,12 +22,10 @@ INGREDIENT_POOL = [
     "shrimp", "fish sauce", "brown sugar", "vinegar", "honey", "yogurt",
     "cucumber", "feta cheese", "olives", "pita bread", "chickpeas",
 ]
-
 CUISINE_TAGS = [
     "italian", "mexican", "indian", "chinese", "thai", "mediterranean",
     "american", "french", "japanese", "vegetarian", "quick", "healthy",
 ]
-
 TITLE_TEMPLATES = [
     "{a} and {b} rice bowl", "creamy {a} {b} pasta", "spicy {a} tacos",
     "roasted {a} with {b}", "{a} {b} stir fry", "classic {a} soup",
@@ -69,8 +40,6 @@ def _fake_steps(n_steps: int) -> list[str]:
 
 
 def _fake_nutrition() -> list[float]:
-    # Matches Food.com's stored order:
-    # [calories, total_fat_PDV, sugar_PDV, sodium_PDV, protein_PDV, saturated_fat_PDV, carbs_PDV]
     return [
         round(random.uniform(120, 850), 1),
         round(random.uniform(2, 60), 1),
@@ -87,10 +56,10 @@ def generate_recipes(n_recipes: int = 300) -> pd.DataFrame:
     for recipe_id in range(1, n_recipes + 1):
         n_ing = random.randint(4, 12)
         ingredients = random.sample(INGREDIENT_POOL, n_ing)
-        n_steps = random.randint(1, 12)  # intentionally includes some <2 to exercise the min_steps filter
+        n_steps = random.randint(1, 12)  
         a, b = random.sample(ingredients, 2)
         title = random.choice(TITLE_TEMPLATES).format(a=a, b=b)
-        minutes = random.choice([random.randint(-5, 0)] * 1 + [random.randint(5, 180)] * 20)  # a few bad rows on purpose
+        minutes = random.choice([random.randint(-5, 0)] * 1 + [random.randint(5, 180)] * 20)  
         tags = random.sample(CUISINE_TAGS, k=random.randint(1, 4))
 
         rows.append({
@@ -109,8 +78,6 @@ def generate_recipes(n_recipes: int = 300) -> pd.DataFrame:
         })
 
     df = pd.DataFrame(rows)
-    # Inject a handful of exact duplicates and null descriptions on purpose,
-    # so preprocessing.py's dedup/null-handling logic has something real to do.
     dupes = df.sample(frac=0.03, random_state=RANDOM_SEED)
     df = pd.concat([df, dupes], ignore_index=True)
     null_idx = df.sample(frac=0.02, random_state=RANDOM_SEED).index

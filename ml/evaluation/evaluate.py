@@ -1,17 +1,3 @@
-"""
-Evaluates the trained encoder on the held-out test split.
-
-Corpus definition: the retrieval corpus is ALL recipes (train + val + test)
-- at serving time, a real user's pantry should be able to retrieve ANY
-recipe in the system, not just ones held out for testing. What's held out
-for evaluation is the QUERIES: test-set recipes' ingredient subsets are
-used as queries, and we check whether retrieval finds their true source
-recipe in the full corpus. This mirrors how the system is actually used
-in production and avoids the common mistake of evaluating retrieval
-against an artificially shrunk corpus that makes the task easier than
-it will be at serving time.
-"""
-
 from __future__ import annotations
 
 import json

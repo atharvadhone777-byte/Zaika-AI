@@ -9,7 +9,6 @@ from app.services.chat_service import ChatService
 
 router = APIRouter(prefix="/api/v1", tags=["chat"])
 
-
 def _service(request: Request) -> ChatService:
     return request.app.state.chat_service
 

@@ -1,9 +1,3 @@
-# For local development / demoing the full stack with one command:
-#   docker compose up --build
-# Production deployment (Render + Vercel) does NOT use this file directly -
-# see docs/DEPLOYMENT.md - but the same two Dockerfiles are what Render
-# builds from.
-
 services:
   backend:
     build:
